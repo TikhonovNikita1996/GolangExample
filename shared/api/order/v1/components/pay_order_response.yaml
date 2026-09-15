@@ -1,0 +1,7 @@
+type: object
+required:
+  - payment_method
+properties:
+  transaction_uuid:
+    type: string
+    description: Id транзакции

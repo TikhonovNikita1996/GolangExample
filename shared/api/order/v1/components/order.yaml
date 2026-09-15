@@ -1,0 +1,50 @@
+type: object
+required:
+  - order_uuid
+  - user_uuid
+  - parts_uuid
+  - total_price
+  - status
+properties:
+  order_uuid:
+    type: string
+    description: Уникальный идентификатор заказа
+    example: "d2719a7e-45b9-47c1-8c78-0e3a0f1fbb72"
+
+  user_uuid:
+    type: string
+    description: Идентификатор пользователя, сделавшего заказ
+    example: "4086d4ff-bb33-4cae-ab67-d1a2491bc352"
+
+  parts_uuid:
+    type: array
+    description: Список UUID деталей, входящих в заказ
+    items:
+      type: string
+
+    example:
+      - "2c5091be-0d74-4d4f-9ea3-bc39f41f0e28"
+      - "3e622abd-8b25-42f6-8793-dc9d7a2b210c"
+
+  total_price:
+    type: number
+    format: float
+    description: Общая стоимость заказа
+    example: 1499.99
+
+  transaction_uuid:
+    type: string
+    nullable: true
+    description: UUID транзакции, если доступен
+    example: "7df8b650-bfe6-4bd6-b1a1-d9c66ed2c8f1"
+
+  payment_method:
+    type: string
+    nullable: true
+    description: Метод платежа, если доступен
+    example: "CARD"
+
+  status:
+    type: string
+    description: Статус заказа (например, создан, оплачен, отменён)
+    example: "created"

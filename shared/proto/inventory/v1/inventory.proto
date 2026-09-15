@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+package inventory.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/TikhonovNikita1996/Go-microservises-project/shared/pkg/proto/inventory/v1;inventoryv1";
+
+service InventoryService {
+
+  rpc GetPart(GetPartRequest) returns (GetPartResponse);
+  rpc GetParts(GetPartsRequest) returns (GetPartsResponse);
+
+}
+
+// Запрос на получение информации по одной детали
+message GetPartRequest {
+  // Uuid детали
+  string uuid = 1;
+}
+
+// Ответ на получение информации по одной детали
+message GetPartResponse {
+  // Данные для детали
+  Part part = 1;
+}
+
+// Запрос на получение списка частей
+message GetPartsRequest {
+  // Данные для оплаты
+  PartsFilter parts_filter = 1;
+}
+
+// Ответ на получение информации по одной детали
+message GetPartsResponse {
+  // Данные для оплаты
+  repeated Part parts = 1;
+}
+
+// Фильтр для запроса списка деталей
+message PartsFilter {
+  repeated string uuids = 1;                  // Список UUID'ов. Пусто — не фильтруем по UUID
+  repeated string names = 2;                  // Список имён. Пусто — не фильтруем по имени
+  repeated Category categories = 3;            // Список категорий. Пусто — не фильтруем по категории
+  repeated string manufacturer_countries = 4;  // Список стран производителей. Пусто — не фильтруем по стране
+  repeated string tags = 5;                   // Список тегов. Пусто — не фильтруем по тегам
+}
+
+// Ответ на запрос об оплате
+message PayOrderResponse {
+  // Данные для создания наблюдения
+  string transaction_uuid = 1;
+}
+
+// Информация по детали
+message Part {
+  string uuid = 1;                // Уникальный идентификатор детали
+  string name = 2;                // Название детали
+  string description = 3;         // Описание детали
+  double price = 4;               // Цена за единицу
+  int64 stock_quantity = 5;       // Количество на складе
+  Category category = 6;          // Категория
+  Dimensions dimensions = 7;      // Габариты
+  Manufacturer manufacturer = 8;  // Производитель
+  repeated string tags = 9;       // Теги для поиска
+  map<string, Value> metadata = 10; // Гибкие метаданные
+  google.protobuf.Timestamp created_at = 11; // Дата создания
+  google.protobuf.Timestamp updated_at = 12; // Дата обновления
+}
+
+//Тип значения
+message Value {
+  oneof kind {
+    string string_value = 1;  // Строковое значение
+    int64 int64_value = 2;    // Целое число
+    double double_value = 3;  // Дробное число
+    bool bool_value = 4;      // Логическое значение
+  }
+}
+
+// Описание производителя
+message Manufacturer {
+  string name = 1;      // Название производителя
+  string country = 2;   // Страна производства
+  string website = 3;   // Официальный сайт
+}
+
+// Описание размеров
+message Dimensions {
+  double length = 1;   // Длина в см
+  double width = 2;    // Ширина в см
+  double height = 3;   // Высота в см
+  double weight = 4;   // Вес в кг
+}
+
+// Перечисление категорий товаров
+enum Category {
+  CATEGORY_UNSPECIFIED  = 0;
+  CATEGORY_ENGINE = 1;
+  CATEGORY_FUEL = 2;
+  CATEGORY_PORTHOLE = 3;
+  CATEGORY_WING = 4;
+}

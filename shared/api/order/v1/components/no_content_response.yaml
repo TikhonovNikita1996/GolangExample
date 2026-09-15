@@ -1,0 +1,13 @@
+type: object
+required:
+  - code
+  - message
+properties:
+  code:
+    type: integer
+    description: HTTP-код ответа на отмену заказа
+    example: 204
+  message:
+    type: string
+    description: Описание
+    example: "The order was successfully canceled"

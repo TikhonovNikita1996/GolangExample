@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package auth.v1;
+
+option go_package = "github.com/TikhonovNikita1996/Go-microservises-project/shared/pkg/proto/auth/v1;auth_v1";
+
+import "common/v1/session.proto";
+import "common/v1/user.proto";
+
+// AuthService
+service AuthService {
+  rpc Login(LoginRequest) returns (LoginResponse); // Login
+  rpc Whoami(WhoamiRequest) returns (WhoamiResponse); // Whoami
+}
+
+// Запрос на вход
+message LoginRequest {
+  string login = 1;    // Имя пользователя
+  string password = 2; // Пароль
+}
+
+// Ответ на запрос для входа
+message LoginResponse {
+  string session_uuid = 1; // Uuid сессии
+}
+
+// WhoamiRequest
+message WhoamiRequest {
+  string session_uuid = 1; // Uuid сессии
+}
+
+// WhoamiResponse
+message WhoamiResponse {
+  common.v1.Session session = 1; // Сессия
+  common.v1.User user = 2; // Пользователь
+}

@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package payment.v1;
+
+option go_package = "github.com/TikhonovNikita1996/Go-microservises-project/shared/pkg/proto/payment/v1;payment_v1";
+
+service PaymentService {
+
+  rpc PayOrder(PayOrderRequest) returns (PayOrderResponse);
+
+}
+
+// Запрос на оплату
+message PayOrderRequest {
+  // Данные для оплаты
+  PaymentInfo info = 1;
+}
+
+// Ответ на запрос об оплате
+message PayOrderResponse {
+  // Данные для создания наблюдения
+  string transaction_uuid = 1;
+}
+
+// Информация для оплаты
+message PaymentInfo {
+  // id заказа
+  string order_uuid = 1;
+  // id пользователя
+  string user_uuid = 2;
+  // Способ платежа
+  PaymentMethod payment_method = 3;
+}
+
+// Перечисление способов оплаты
+enum PaymentMethod {
+  PAYMENT_METHOD_UNSPECIFIED  = 0;
+  PAYMENT_METHOD_CARD = 1;
+  PAYMENT_METHOD_SBP = 2;
+  PAYMENT_METHOD_CREDIT_CARD = 3;
+  PAYMENT_METHOD_INVESTOR_MONEY = 4;
+}

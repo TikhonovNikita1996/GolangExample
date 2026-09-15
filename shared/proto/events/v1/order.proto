@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package events.v1;
+
+option go_package = "github.com/TikhonovNikita1996/Go-microservises-project/shared/pkg/proto/events/v1;eventsv1";
+
+//Событие оплаты заказа
+message OrderPayed {
+  string event_uuid = 1; // Id события
+  string order_uuid = 2; // Id заказа
+  string user_uuid = 3; // Id пользователя
+  string payment_method = 4; // Метод оплаты
+  string transaction_uuid = 5; // Id транзации
+}
+
+//Событие подтверждения о начале сборки
+message ShipAssembled {
+  string event_uuid = 1; // Id события
+  string order_uuid = 2; // Id заказа
+  string user_uuid = 3; // Id пользователя
+  int64  build_time_sec=4; // Время (в секундах), потраченное на сборку корабля
+}

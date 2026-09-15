@@ -1,0 +1,26 @@
+package env
+
+import (
+	"github.com/caarlos0/env/v11"
+)
+
+type telegramEnvConfig struct {
+	BotToken string `env:"NOTIFICATION_BOT_TOKEN,required"`
+}
+
+type telegramConfig struct {
+	raw telegramEnvConfig
+}
+
+func NewTelegramConfig() (*telegramConfig, error) {
+	var raw telegramEnvConfig
+	if err := env.Parse(&raw); err != nil {
+		return nil, err
+	}
+
+	return &telegramConfig{raw: raw}, nil
+}
+
+func (cfg *telegramConfig) Token() string {
+	return cfg.raw.BotToken
+}
